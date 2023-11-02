@@ -1,0 +1,50 @@
+Notes on assembly syntax:
+
+Operand Types:
+
+    Below are all recognized operands which are syntactically
+    unique. 
+
+    General Purpose Register:
+        Byte Length:
+            AL, CL, DL, BL, AH, CH, DH, BH
+        Word Length:
+            AX, CX, DX, BX, SP, BP, SI, DI
+
+    Segment Register:
+        ES, CS, SS, DS
+
+    Immediate
+        Note that the width of an immediate is inferred
+        from its parent instruction. An immediate
+        will either be interpreted as a 8-bit or 16-bit value.
+    
+    Memory:
+        Byte Offset 
+        Word Offset 
+        Only Base or Index:
+            BX, BP, SI, DI
+        Base/Index + Byte Displacement
+            (BX/BP/SI/DI) + D8
+        Base/Index + Word Displacement
+            (BX/BP/SI/DI) + D16
+        Base + Index
+            (BX/BP) + (SI/DI)
+        Base + Index + Byte Displacement
+            (BX/BP) + (SI/DI) + D8
+        Base + Index + Word Displacement
+            (BX/BP) + (SI/DI) + D16
+
+    memptr32:
+        32-bit immediate representing segment and 
+        offset. Note, that an Immediate can be used
+        as a 16-bit code segment offset.
+   
+    Label:
+        Local Label
+            (Ex .loop .end .continue)
+        Global Label 
+            (Ex puts printf start_kernel)
+
+Syntax:
+    

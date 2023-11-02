@@ -56,7 +56,6 @@ Notable Instructions:
         PUSHF - push flags register onto the stack.
         POPF - pop flags register from the stack.
 
-
     Arithmetic:
         ADC - Add with carry.
         ADD - Add without carry.
