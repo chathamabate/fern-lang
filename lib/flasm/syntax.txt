@@ -20,8 +20,8 @@ Operand Types:
         will either be interpreted as a 8-bit or 16-bit value.
     
     Memory:
-        Byte Offset 
-        Word Offset 
+        Byte Offset  
+        Word Offset  
         Only Base or Index:
             BX, BP, SI, DI
         Base/Index + Byte Displacement
@@ -41,10 +41,19 @@ Operand Types:
         as a 16-bit code segment offset.
    
     Label:
+        Note that for now, all labels will resolve to
+        16-bit current code segment offsets.
+
         Local Label
             (Ex .loop .end .continue)
         Global Label 
             (Ex puts printf start_kernel)
 
 Syntax:
+
+    Opcode Modifier operands... 
+    Modifier is for operations which are ambiguous? 
+    Maybe just a different opcode?
+    Nah, I like the modifier thing...
+
     
