@@ -1,0 +1,159 @@
+
+We are compiling to x86 16-bit real mode machine code.
+
+Notes on Segments:
+
+    SS - Used by all stack operations
+         (And when BP is used as base register)
+
+    DS - Used by all data operations (except the following...)
+    ES - Is used as "String destination segment"
+
+Notes on Registers:
+
+    General Purpose 8-bit Registers
+    AL, CL, DL, BL, AH, CH, DH, BH
+
+    General Purpose 16-bit Registers
+    AX, CX, DX, BX, SP, BP, SI, DI
+
+    Segment Registers
+    ES, CS, SS, DS
+
+Notes on Effective Addresses:
+
+    Remember that BP and BX are refered to as "Base Registers".
+    BP indexes into the stack segment SS.
+    BX indexes into the data segment DS.
+
+        8-bit constant offset   (DS)
+        16-bit constant offset  (DS)
+        Only Base or Index: BX, SI, DI (DS)     BP (SS)
+        (Base/Index + Displacement)
+        Base + Index: BX + SI, BX + DI (DS)     BP + SI, BP + DI (SS)
+        (Base + Index + Displacement)
+
+    In the "Notable Instructions" section, all the above forms are considered
+    "memory".
+
+Notable Instructions:
+
+    These are going to be the instructions supported by this assembler.
+    There are many more instructions available. They will not be included
+    for simplicity.
+
+    Memory:
+        MOV - move data from one place to another.
+            register,   register
+            memory,     register    (<=>)
+            memory,     memory
+            register,   immediate
+            memory,     immediate
+            seg-reg,    reg16       (<=>)
+            seg-reg,    mem16       (<=>)
+        PUSH - push data onto the stack.
+        POP - pop data off of the stack.
+        PUSHF - push flags register onto the stack.
+        POPF - pop flags register from the stack.
+
+
+    Arithmetic:
+        ADC - Add with carry.
+        ADD - Add without carry.
+        CMP - Compare destination to source.
+        SUB - Subtract without borrow.
+        SBB - Subtract with borrow.
+            register,   register
+            memory,     register    (<=>)
+            register,   immediate
+            memory,     immediate
+    
+        INC - Increment a word or byte.
+        DEC - Decrement a word or byte.
+        NEG - Negate a word or byte.
+        MUL - Unsigned multiplication.
+        IMUL - Signed multiplication.
+        DIV - Unsigned division.
+        IDIV - Signed division.
+    
+    Logical:
+        NOT - Logical not.
+        AND - Logical and.
+        OR - Logical or. 
+        XOR - Logical exclusive or.
+        TEST - Logical compare.
+        SHL - Logical/Arithmetic shift left.
+        SHR - Logical shift right.
+        SAR - Arithmetic shift right.
+    
+    Control:
+        CALL - Call a procedure.
+        RET - Return from a procedure.
+        JMP - Unconditional jump.
+        J__ - Conditional jump.
+        LOOP__ - Conditional looping.
+    
+    Interrupts:
+        INT - Call an interrupt.
+
+    Processor Control:
+        STC - Set carry flag.
+        CLC - Clear carry flag.
+        CMC - Complement carry flag. 
+        STD - Set direction flag.
+        CLD - Clear direction flag.
+        STI - Set interrupt enable flag.
+        CLI - Clear interrupt enable flag.
+        HLT - Halt until interrupt or reset.
+        NOP - no op.
+
+Typical Op Code Construction:
+
+          Byte 1     |     Byte 2      |     Byte 3    |     Byte 4     |  Byte 5  |   Byte 6  |
+      (6)    (1) (1) | (2)   (3)   (3) | Low Disp/Data | High Disp/Data | Low Data | High Data |
+    Op-Code | D | W  | MOD | REG | R/M |               |                |          |           |
+
+Single Bit Fields:
+
+    D - Direction 
+        0 - REG is source
+        1 - REG is destination
+
+    W - Byte or Word operation
+        0 - byte operation 
+        1 - word operation
+
+    S - Signed operation
+        0 - No sign extension
+        1 - With sign extension
+
+    V - Shift/Rotate Count
+        0 - count is 1
+        1 - count is in the CL register
+
+    Z - Zero Loop
+        0 - Loop while zero flag is cleared
+        1 - Loop while zero flag is set
+
+MOD Field:
+    00 - Memory Mode, No displacement follows
+    01 - Memory Mode, 8-bit displacement follows
+    10 - Memory Mode, 16-bit displacement follows
+    11 - Register Mode, No displacement follows
+
+REG Field:
+         W=0 | W=1
+    000  AL  | AX
+    001  CL  | CX
+    010  DL  | DX
+    011  BL  | BX
+    100  AH  | SP
+    101  CH  | BP
+    110  DH  | SI
+    111  BH  | DI
+
+SR Field:
+    00 ES
+    01 CS
+    10 SS
+    11 DS
