@@ -1,4 +1,36 @@
-Notes on assembly syntax:
+
+Introductory Notes:
+
+All flc languages will be parsed with the same frontend.
+As the fern-lang variants will all be low-level in nature,
+flc will allow for intermixing of the representations.
+
+i.e. Assembly can appear in the same file as a higher lever
+representation.
+
+At the top of any source file (regardless of languages used),
+must be a "location header".
+
+This will tell the compiler where the given program is going
+to sit in memory. A segment and offset must be provided.
+
+Preprocessor:
+
+    Write preprocessor later...
+    Simple copy and paste.
+
+Language Sections:
+
+language flasm {
+
+}
+
+Dual Pass:
+
+    There must be a universal procedure format in assembly
+    which all higher level representations are gauranteed to follow?
+    Bruh, this is lowkey tough af...
+
 
 Operand Types:
 
@@ -51,9 +83,9 @@ Operand Types:
 
 Syntax:
 
-    Opcode Modifier operands... 
-    Modifier is for operations which are ambiguous? 
-    Maybe just a different opcode?
-    Nah, I like the modifier thing...
+macros???
 
+<Label> ::= ...
+
+<Instr> ::= ...
     
