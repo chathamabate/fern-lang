@@ -1,6 +1,35 @@
 
 Introductory Notes:
 
+    fern-lang will be a systems level language for the 8086.
+    It will be designed such that all aspects of an operating
+    system can be written in fern-lang. Thus, it will
+    support assembly sections and higher level sections.
+
+
+Section Types:
+
+    Bare Assembly:
+        - Labeled
+        - Globally accessible code section
+
+    Type Definition:
+        - A defintion of a globally usable type.
+
+    Assembly Procedure: 
+        - Typed procedure written in Assembly.
+
+    Abstract Procedure:
+        - Type procedure written in higher level lang.
+
+Data Types:
+    
+    <Prim> ::= u8 | u16 | s8 | s16
+
+
+
+
+
 All flc languages will be parsed with the same frontend.
 As the fern-lang variants will all be low-level in nature,
 flc will allow for intermixing of the representations.
