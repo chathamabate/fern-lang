@@ -6,6 +6,54 @@ Introductory Notes:
     system can be written in fern-lang. Thus, it will
     support assembly sections and higher level sections.
 
+    Assembly sections will be denoted with "asm".
+    Higher level sections will be denoted with "abstract".
+
+Data Types:
+
+    Primitives:
+        u8  - unsigned 8-bit integer. (or ascii character)
+        u16 - unsigned 16-bit integer.
+        s8  - signed 8-bit integer.
+        s16 - signed 16-bit integer.
+
+    Pointers:
+        @[T] - a 16-bit offset into the stack, pointing to a value of type T.
+        *[T] - a 32-bit value (offset and segment) pointing to a value of type T.
+
+        NOTE: both sptr and ptr can be used in an array fashion.
+
+    Procedures:
+        near(T1, T2, T3, ...) - A 16-bit offset into the current code segment
+                                pointing to a procedure accepting T1... as paramenters.
+        far(T1, T2, T3, ...)  - A 32-bit segment and offset of a procedure accepting
+                                T1... as parameters.
+    
+    Structures and Arrays: 
+        c[T] - An array of type T with constant length c.
+
+        { T1 L1; T2 L2; ... } - A structure is a composite type.
+
+        NOTE: for a structure to be used as a type, it must be named separately.
+        This is unique to structures.
+
+    Constants:
+        const T - A value of type T which is unchanging.
+
+    Grammar:
+
+<prim>  ::= u8 | u16 | s8 | s16
+<ptr>   ::= @[<type>] | \*[<type>]
+<proc>  ::= near\( (<type>(, <type>)*)? \) 
+          | far\( (<type>(, <type>)*)? \) 
+<arr>   ::= <num>[<type>]
+<const> ::= const <type>
+
+
+
+
+<strct> ::= { (<type> <name>;)+ }
+
 
 Section Types:
 
