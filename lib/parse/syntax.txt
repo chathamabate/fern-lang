@@ -45,39 +45,73 @@ Sections Types:
     A fern lang program will be broken into independent sections.
     The order of the given sections will be preserved during compilation.
 
-    header section - header information about the binary being compiled.
+    meta section:
+        This section contains information about the binary to be compiled.
+        It is REQUIRED to be the first section of the source file.
+
+        meta {
+            <Attribute> = Value;
+            ...
+        }
+
+        Attributes:
+            <segment> (u16) - Segment this binary will be placed in.
+            <offset>  (u16) - Offset of this binary in its segment.
+
+        NOTE: add this into the preprocessor... not source!
+
+    type section:
+        A type section is for defining a single type.
     
-    header {
+        type <name> <type>
 
-    }
+        This section alone adds nothing to the binary.
+        The defined type's structure is used in procedures which
+        reference it.
 
-    raw section - This section contains assembly code with no setup.
-    This section has no native support of parameters or local variables.
-    This is all up to the user to define how they see fit.
+    data section:
+        A data section stores data in the binary.
+        A data section's data need not be constant (but it can be if desired).
+        A data section's data may be initialized, or not.
 
-    raw <name> {
-        // Assembly...
-    }
+        data <name> {
+            <type> <name> (= <value>)?;
+            ...
+        }
 
-    procedure section - A procedure provides support for local variables,
-    parameters, abstract code, and augmented assembly!
+    raw section:
+        A raw section is written only in assembly and has no native support
+        for fields or parameters. 
+        It can be used to hold data, but this is not advisable.
+        It can be used to write high performance code which does not
+        match the format of traditional procedures.
+        For example, a raw section might represent a function whose
+        parameters are passed through registers.
 
-    (local|global) <name>
-    (params...)
-    [local variables....]
-    text {
-    asm:
-       Assembly code... 
-    
-    abstract:
-       Abstract code...
-    } 
+        raw <name> {
+            // assembly code...
+        }
 
-    data section - Where constants and global variables can be stored!
+    procedure section:
+        A procedure is a section of program text.
+        A procedure has parameters and fields.
+        A procedure's text can be written in assembly and/or abstract code.
+        A procedure can be marked as local or global.
+        A global procedure can be called from anywhere.
+        A local procedure can only be called from within its parent segment.
 
-    data {
-        type name; ...
-    } 
+        (local|global) proc 
+        <name>(params...)
+        [fields...]
+        {
+        abstract:
+            // abstract text...
+        asm:
+            // assembly text...
+        } 
+
+Abstract Code Notes:
+
 
 Assembly Notes:
 
@@ -128,11 +162,4 @@ Assembly Notes:
         Global Label 
             (Ex puts printf start_kernel)
 
-Syntax:
-
-macros???
-
-<Label> ::= ...
-
-<Instr> ::= ...
     
