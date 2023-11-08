@@ -21,12 +21,14 @@ Data Types:
         *T - a 32-bit value (offset and segment) pointing to a value of type T.
 
     Procedures:
-        local(T1, T2, T3, ...)  - A 16-bit offset into the current code segment
-                                  pointing to a procedure accepting T1... as paramenters.
-        global(T1, T2, T3, ...) - A 32-bit segment and offset of a procedure accepting
-                                  T1... as parameters.
+        local R (T1, T2, T3, ...)  - A 16-bit offset into the current code segment
+                                     pointing to a procedure accepting T1... as paramenters.
+                                     Returns value of type R.
+        global R (T1, T2, T3, ...) - A 32-bit segment and offset of a procedure accepting
+                                     T1... as parameters. Returns value of type R.
         
         NOTE: Procedure types are never standalone. They must be pointed to!
+        NOTE: R can be value "void" if the procedure returns no value.
     
     Structures and Arrays: 
         [c]T- An array of type T with constant length c.
@@ -35,7 +37,7 @@ Data Types:
         
         NOTE: The labels are used to access the fields of the structure.
         They are not necessary for type equivelance. Two structures with
-        the same field types are equivelant, regardless of the fields labels.
+        the same field types are equivelant, regardless of the field labels.
 
     Constants:
         const T - A value of type T which is unchanging.
@@ -100,7 +102,7 @@ Sections Types:
         A global procedure can be called from anywhere.
         A local procedure can only be called from within its parent segment.
 
-        (local|global) proc 
+        (local|global) <type>
         <name>(params...)
         [fields...]
         {
@@ -111,6 +113,16 @@ Sections Types:
         } 
 
 Abstract Code Notes:
+
+Abstract code will have no mention of registers or the stack.
+What types of values can be to the right of the equals sign??
+
+Indexing? Indirect Calls?
+Loops? If Statements? Gotos?
+Switches?
+
+Lots of things to think about here tbh....
+
 
 
 Assembly Notes:
