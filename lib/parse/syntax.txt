@@ -18,98 +18,68 @@ Data Types:
         s16 - signed 16-bit integer.
 
     Pointers:
-        @[T] - a 16-bit offset into the stack, pointing to a value of type T.
-        *[T] - a 32-bit value (offset and segment) pointing to a value of type T.
-
-        NOTE: both sptr and ptr can be used in an array fashion.
+        *T - a 32-bit value (offset and segment) pointing to a value of type T.
 
     Procedures:
-        near(T1, T2, T3, ...) - A 16-bit offset into the current code segment
-                                pointing to a procedure accepting T1... as paramenters.
-        far(T1, T2, T3, ...)  - A 32-bit segment and offset of a procedure accepting
-                                T1... as parameters.
+        local(T1, T2, T3, ...)  - A 16-bit offset into the current code segment
+                                  pointing to a procedure accepting T1... as paramenters.
+        global(T1, T2, T3, ...) - A 32-bit segment and offset of a procedure accepting
+                                  T1... as parameters.
+        
+        NOTE: Procedure types are never standalone. They must be pointed to!
     
     Structures and Arrays: 
-        c[T] - An array of type T with constant length c.
+        [c]T- An array of type T with constant length c.
 
         { T1 L1; T2 L2; ... } - A structure is a composite type.
-
-        NOTE: for a structure to be used as a type, it must be named separately.
-        This is unique to structures.
+        
+        NOTE: The labels are used to access the fields of the structure.
+        They are not necessary for type equivelance. Two structures with
+        the same field types are equivelant, regardless of the fields labels.
 
     Constants:
         const T - A value of type T which is unchanging.
 
-    Grammar:
+Sections Types:
 
-<prim>  ::= u8 | u16 | s8 | s16
-<ptr>   ::= @[<type>] | \*[<type>]
-<proc>  ::= near\( (<type>(, <type>)*)? \) 
-          | far\( (<type>(, <type>)*)? \) 
-<arr>   ::= <num>[<type>]
-<const> ::= const <type>
+    A fern lang program will be broken into independent sections.
+    The order of the given sections will be preserved during compilation.
 
-
-
-
-<strct> ::= { (<type> <name>;)+ }
-
-
-Section Types:
-
-    Bare Assembly:
-        - Labeled
-        - Globally accessible code section
-
-    Type Definition:
-        - A defintion of a globally usable type.
-
-    Assembly Procedure: 
-        - Typed procedure written in Assembly.
-
-    Abstract Procedure:
-        - Type procedure written in higher level lang.
-
-Data Types:
+    header section - header information about the binary being compiled.
     
-    <Prim> ::= u8 | u16 | s8 | s16
+    header {
 
+    }
 
+    raw section - This section contains assembly code with no setup.
+    This section has no native support of parameters or local variables.
+    This is all up to the user to define how they see fit.
 
+    raw <name> {
+        // Assembly...
+    }
 
+    procedure section - A procedure provides support for local variables,
+    parameters, abstract code, and augmented assembly!
 
-All flc languages will be parsed with the same frontend.
-As the fern-lang variants will all be low-level in nature,
-flc will allow for intermixing of the representations.
+    (local|global) <name>
+    (params...)
+    [local variables....]
+    text {
+    asm:
+       Assembly code... 
+    
+    abstract:
+       Abstract code...
+    } 
 
-i.e. Assembly can appear in the same file as a higher lever
-representation.
+    data section - Where constants and global variables can be stored!
 
-At the top of any source file (regardless of languages used),
-must be a "location header".
+    data {
+        type name; ...
+    } 
 
-This will tell the compiler where the given program is going
-to sit in memory. A segment and offset must be provided.
-
-Preprocessor:
-
-    Write preprocessor later...
-    Simple copy and paste.
-
-Language Sections:
-
-language flasm {
-
-}
-
-Dual Pass:
-
-    There must be a universal procedure format in assembly
-    which all higher level representations are gauranteed to follow?
-    Bruh, this is lowkey tough af...
-
-
-Operand Types:
+Assembly Notes:
 
     Below are all recognized operands which are syntactically
     unique. 
