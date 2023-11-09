@@ -114,15 +114,59 @@ Sections Types:
 
 Abstract Code Notes:
 
-Abstract code will have no mention of registers or the stack.
-What types of values can be to the right of the equals sign??
+    Opperands:
+        Pointers: 
+           * - Dereference 
+           & - Reference
+           [] - array index
+           -> - pointer field index
+           . - field index
+    
+        Arithmetic: (T, T) -> T or (T) -> T
+            - - Arithmetic Negation
+            / - Division
+            * - Multiplication
+            + - Addition
+            - - Subtraction
 
-Indexing? Indirect Calls?
-Loops? If Statements? Gotos?
-Switches?
+        Bitwise: (T, T) -> T or (T) -> T
+            ~ - Bit Negate
+            | - Bit Or
+            & - Bit And
+            ^ - Bit Xor
 
-Lots of things to think about here tbh....
+        Boolean: (T, T) -> u8 or (T) -> u8
+            && - Short-Circuit And
+            || - Short-Circuit Or
+            !  - Negate
+            <  - Less than
+            >  - Greater than 
+            <= - Less than or equal to
+            >= - Greater than or equal to
+            == - Equal to
+            != - Not Equal to
 
+
+        Bit shift (T, u8) -> T
+            >> - logical Right Bit Shift
+            << - Logical Left Bit Shift
+
+        Precedence:
+            Parenthesis
+            Array Index/Pointer Field Index/Field Index
+            Reference/Dereference/(Arithmetic/Logical) Negation
+            Logical Shifts
+            Bit And/Xor
+            Bit Or
+            Division/Multiplication
+            Addition/Subtraction
+            Comparisons
+            Short-Circuit And
+            Short-Circuit Or
+
+    RValues:
+        An RValue is a value that can appear to the right of an equals
+        sign.
 
 
 Assembly Notes:
